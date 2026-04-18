@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { supabase } from '@/lib/supabase'
+import { getSupabase } from '@/lib/supabase'
 import type { Computer, ComputerStatus } from '@/lib/types'
 import StatusBadge from '@/components/StatusBadge'
 
@@ -25,7 +25,7 @@ export default function InventoryPage() {
     setLoading(true)
     setError(null)
     try {
-      const { data, error } = await supabase
+      const { data, error } = await getSupabase()
         .from('computers')
         .select('*')
         .order('asset_tag', { ascending: true })
@@ -60,7 +60,7 @@ export default function InventoryPage() {
 
     setDeletingId(computer.id)
     try {
-      const { error } = await supabase.from('computers').delete().eq('id', computer.id)
+      const { error } = await getSupabase().from('computers').delete().eq('id', computer.id)
       if (error) throw error
       setComputers((prev) => prev.filter((c) => c.id !== computer.id))
     } catch (err: unknown) {

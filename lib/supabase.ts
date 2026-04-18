@@ -1,14 +1,16 @@
 import { createClient } from '@supabase/supabase-js'
 import type { Computer } from './types'
 
-function getSupabaseClient() {
+let _client: ReturnType<typeof createClient> | null = null
+
+export function getSupabase() {
+  if (_client) return _client
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   if (!url || !key) throw new Error('Missing Supabase env vars: NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY')
-  return createClient(url, key)
+  _client = createClient(url, key)
+  return _client
 }
-
-export const supabase = getSupabaseClient()
 
 export type Database = {
   public: {

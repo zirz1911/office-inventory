@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { supabase } from '@/lib/supabase'
+import { getSupabase } from '@/lib/supabase'
 import type { Computer, ComputerInsert, ComputerStatus } from '@/lib/types'
 
 interface ComputerFormProps {
@@ -119,10 +119,10 @@ export default function ComputerForm({ mode, initialData }: ComputerFormProps) {
       }
 
       if (mode === 'add') {
-        const { error } = await supabase.from('computers').insert([payload])
+        const { error } = await getSupabase().from('computers').insert([payload])
         if (error) throw error
       } else if (mode === 'edit' && initialData) {
-        const { error } = await supabase
+        const { error } = await getSupabase()
           .from('computers')
           .update(payload)
           .eq('id', initialData.id)

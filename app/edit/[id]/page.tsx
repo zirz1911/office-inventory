@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic'
 
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { supabase } from '@/lib/supabase'
+import { getSupabase } from '@/lib/supabase'
 import ComputerForm from '@/components/ComputerForm'
 import type { Computer } from '@/lib/types'
 
@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: EditPageProps) {
 }
 
 async function getComputer(id: string): Promise<Computer | null> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabase()
     .from('computers')
     .select('*')
     .eq('id', id)
