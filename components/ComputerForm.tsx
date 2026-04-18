@@ -119,11 +119,12 @@ export default function ComputerForm({ mode, initialData }: ComputerFormProps) {
       }
 
       if (mode === 'add') {
-        const { error } = await getSupabase().from('computers').insert([payload])
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const { error } = await (getSupabase().from('computers') as any).insert([payload])
         if (error) throw error
       } else if (mode === 'edit' && initialData) {
-        const { error } = await getSupabase()
-          .from('computers')
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const { error } = await (getSupabase().from('computers') as any)
           .update(payload)
           .eq('id', initialData.id)
         if (error) throw error
