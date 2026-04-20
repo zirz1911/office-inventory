@@ -26,7 +26,7 @@ const emptyForm: ComputerInsert = {
   notes: null,
 }
 
-const STATUS_OPTIONS: ComputerStatus[] = ['Active', 'Maintenance', 'Retired']
+const STATUS_OPTIONS: ComputerStatus[] = ['Active', 'Maintenance', 'Retired', 'Inactive']
 
 const BRAND_OPTIONS = [
   'Dell', 'HP', 'Lenovo', 'Apple', 'Asus', 'Acer', 'Microsoft', 'Samsung', 'Other',

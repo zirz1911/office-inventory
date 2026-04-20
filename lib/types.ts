@@ -1,4 +1,4 @@
-export type ComputerStatus = 'Active' | 'Maintenance' | 'Retired'
+export type ComputerStatus = 'Active' | 'Maintenance' | 'Retired' | 'Inactive'
 
 export interface Computer {
   id: string

@@ -23,6 +23,12 @@ const statusConfig: Record<ComputerStatus, { bg: string; text: string; dot: stri
     dot: 'bg-red-500',
     label: 'Retired',
   },
+  Inactive: {
+    bg: 'bg-gray-100',
+    text: 'text-gray-600',
+    dot: 'bg-gray-400',
+    label: 'Inactive',
+  },
 }
 
 export default function StatusBadge({ status }: StatusBadgeProps) {

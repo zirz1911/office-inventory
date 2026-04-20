@@ -13,7 +13,7 @@ create table if not exists computers (
   os text not null,
   department text not null,
   assigned_to text not null,
-  status text not null default 'Active' check (status in ('Active', 'Maintenance', 'Retired')),
+  status text not null default 'Active' check (status in ('Active', 'Maintenance', 'Retired', 'Inactive')),
   notes text,
   created_at timestamptz not null default now()
 );
