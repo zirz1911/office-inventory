@@ -7,7 +7,7 @@ import { getSupabase } from '@/lib/supabase'
 import type { Computer, ComputerStatus } from '@/lib/types'
 import StatusBadge from '@/components/StatusBadge'
 
-type SortField = 'asset_tag' | 'computer_name' | 'department' | 'status' | 'brand'
+type SortField = 'computer_name' | 'department' | 'status' | 'brand'
 type SortDir = 'asc' | 'desc'
 
 export default function InventoryPage() {
@@ -17,7 +17,7 @@ export default function InventoryPage() {
   const [error, setError] = useState<string | null>(null)
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState<ComputerStatus | 'All'>('All')
-  const [sortField, setSortField] = useState<SortField>('asset_tag')
+  const [sortField, setSortField] = useState<SortField>('computer_name')
   const [sortDir, setSortDir] = useState<SortDir>('asc')
   const [deletingId, setDeletingId] = useState<string | null>(null)
 
@@ -28,7 +28,7 @@ export default function InventoryPage() {
       const { data, error } = await getSupabase()
         .from('computers')
         .select('*')
-        .order('asset_tag', { ascending: true })
+        .order('computer_name', { ascending: true })
 
       if (error) throw error
       setComputers(data ?? [])
@@ -54,7 +54,7 @@ export default function InventoryPage() {
 
   const handleDelete = async (computer: Computer) => {
     const confirmed = window.confirm(
-      `Delete computer "${computer.asset_tag} — ${computer.computer_name}"?\n\nThis action cannot be undone.`
+      `Delete computer "${computer.computer_name}"?\n\nThis action cannot be undone.`
     )
     if (!confirmed) return
 
@@ -76,7 +76,6 @@ export default function InventoryPage() {
       const q = search.toLowerCase()
       const matchSearch =
         !q ||
-        c.asset_tag.toLowerCase().includes(q) ||
         c.computer_name.toLowerCase().includes(q) ||
         c.department.toLowerCase().includes(q) ||
         c.brand.toLowerCase().includes(q) ||
@@ -217,7 +216,6 @@ export default function InventoryPage() {
               <thead>
                 <tr className="bg-gray-50 border-b border-gray-200">
                   {[
-                    { label: 'Asset Tag', field: 'asset_tag' as SortField },
                     { label: 'Computer Name', field: 'computer_name' as SortField },
                     { label: 'Brand / Model', field: 'brand' as SortField },
                     { label: 'Specs', field: null },
@@ -245,9 +243,6 @@ export default function InventoryPage() {
                     key={computer.id}
                     className="hover:bg-blue-50/30 transition-colors"
                   >
-                    <td className="px-4 py-3 font-mono font-medium text-blue-700 whitespace-nowrap">
-                      {computer.asset_tag}
-                    </td>
                     <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">
                       {computer.computer_name}
                     </td>
@@ -259,6 +254,7 @@ export default function InventoryPage() {
                       <div className="text-gray-700">{computer.cpu}</div>
                       <div className="text-gray-400 text-xs">
                         {computer.ram_gb}GB RAM · {computer.storage}
+                        {computer.gpu && ` · ${computer.gpu}`}
                       </div>
                     </td>
                     <td className="px-4 py-3 whitespace-nowrap">

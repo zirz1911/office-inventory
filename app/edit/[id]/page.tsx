@@ -43,7 +43,7 @@ export default async function EditComputerPage({ params }: EditPageProps) {
         </Link>
         <span>/</span>
         <span className="text-gray-900 font-medium">
-          Edit {computer.asset_tag}
+          Edit {computer.computer_name}
         </span>
       </nav>
 
@@ -51,8 +51,7 @@ export default async function EditComputerPage({ params }: EditPageProps) {
         <h1 className="text-2xl font-bold text-gray-900">Edit Computer</h1>
         <p className="text-gray-500 text-sm mt-1">
           Update details for{' '}
-          <span className="font-mono font-medium text-blue-700">{computer.asset_tag}</span>
-          {' '}— {computer.computer_name}
+          <span className="font-medium text-blue-700">{computer.computer_name}</span>
         </p>
       </div>
 

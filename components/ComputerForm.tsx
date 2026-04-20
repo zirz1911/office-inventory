@@ -12,18 +12,17 @@ interface ComputerFormProps {
 }
 
 const emptyForm: ComputerInsert = {
-  asset_tag: '',
   computer_name: '',
   brand: '',
   model: '',
   cpu: '',
+  gpu: null,
   ram_gb: 8,
   storage: '',
   os: '',
   department: '',
   assigned_to: '',
   status: 'Active',
-  purchase_date: null,
   notes: null,
 }
 
@@ -51,18 +50,17 @@ export default function ComputerForm({ mode, initialData }: ComputerFormProps) {
   const [form, setForm] = useState<ComputerInsert>(
     initialData
       ? {
-          asset_tag: initialData.asset_tag,
           computer_name: initialData.computer_name,
           brand: initialData.brand,
           model: initialData.model,
           cpu: initialData.cpu,
+          gpu: initialData.gpu,
           ram_gb: initialData.ram_gb,
           storage: initialData.storage,
           os: initialData.os,
           department: initialData.department,
           assigned_to: initialData.assigned_to,
           status: initialData.status,
-          purchase_date: initialData.purchase_date,
           notes: initialData.notes,
         }
       : emptyForm
@@ -74,7 +72,7 @@ export default function ComputerForm({ mode, initialData }: ComputerFormProps) {
   const validate = (): boolean => {
     const newErrors: Partial<Record<keyof ComputerInsert, string>> = {}
     const required: (keyof ComputerInsert)[] = [
-      'asset_tag', 'computer_name', 'brand', 'model', 'cpu',
+      'computer_name', 'brand', 'model', 'cpu',
       'storage', 'os', 'department', 'assigned_to',
     ]
     for (const field of required) {
@@ -114,7 +112,7 @@ export default function ComputerForm({ mode, initialData }: ComputerFormProps) {
     try {
       const payload = {
         ...form,
-        purchase_date: form.purchase_date || null,
+        gpu: form.gpu?.trim() || null,
         notes: form.notes?.trim() || null,
       }
 
@@ -149,46 +147,27 @@ export default function ComputerForm({ mode, initialData }: ComputerFormProps) {
         </div>
       )}
 
-      {/* Identification */}
+      {/* Computer Name */}
       <section className="card p-6 mb-6">
         <h2 className="text-base font-semibold text-gray-900 mb-4 pb-3 border-b border-gray-100">
-          Identification
+          Computer Name
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label htmlFor="asset_tag" className="form-label">
-              Asset Tag <span className="text-red-500">*</span>
-            </label>
-            <input
-              id="asset_tag"
-              name="asset_tag"
-              type="text"
-              className={`form-input ${errors.asset_tag ? 'border-red-400 focus:ring-red-400' : ''}`}
-              placeholder="PC-001"
-              value={form.asset_tag}
-              onChange={handleChange}
-            />
-            {errors.asset_tag && (
-              <p className="mt-1 text-xs text-red-600">{errors.asset_tag}</p>
-            )}
-          </div>
-          <div>
-            <label htmlFor="computer_name" className="form-label">
-              Computer Name <span className="text-red-500">*</span>
-            </label>
-            <input
-              id="computer_name"
-              name="computer_name"
-              type="text"
-              className={`form-input ${errors.computer_name ? 'border-red-400 focus:ring-red-400' : ''}`}
-              placeholder="DESKTOP-FINANCE01"
-              value={form.computer_name}
-              onChange={handleChange}
-            />
-            {errors.computer_name && (
-              <p className="mt-1 text-xs text-red-600">{errors.computer_name}</p>
-            )}
-          </div>
+        <div>
+          <label htmlFor="computer_name" className="form-label">
+            Computer Name <span className="text-red-500">*</span>
+          </label>
+          <input
+            id="computer_name"
+            name="computer_name"
+            type="text"
+            className={`form-input ${errors.computer_name ? 'border-red-400 focus:ring-red-400' : ''}`}
+            placeholder="DESKTOP-FINANCE01"
+            value={form.computer_name}
+            onChange={handleChange}
+          />
+          {errors.computer_name && (
+            <p className="mt-1 text-xs text-red-600">{errors.computer_name}</p>
+          )}
         </div>
       </section>
 
@@ -288,6 +267,20 @@ export default function ComputerForm({ mode, initialData }: ComputerFormProps) {
             )}
           </div>
           <div>
+            <label htmlFor="gpu" className="form-label">
+              GPU <span className="text-gray-400 font-normal">(optional)</span>
+            </label>
+            <input
+              id="gpu"
+              name="gpu"
+              type="text"
+              className="form-input"
+              placeholder="NVIDIA RTX 4060, Integrated..."
+              value={form.gpu ?? ''}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
             <label htmlFor="os" className="form-label">
               Operating System <span className="text-red-500">*</span>
             </label>
@@ -365,19 +358,6 @@ export default function ComputerForm({ mode, initialData }: ComputerFormProps) {
                 <option key={s} value={s}>{s}</option>
               ))}
             </select>
-          </div>
-          <div>
-            <label htmlFor="purchase_date" className="form-label">
-              Purchase Date
-            </label>
-            <input
-              id="purchase_date"
-              name="purchase_date"
-              type="date"
-              className="form-input"
-              value={form.purchase_date ?? ''}
-              onChange={handleChange}
-            />
           </div>
         </div>
       </section>
