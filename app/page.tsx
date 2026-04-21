@@ -95,6 +95,7 @@ export default function InventoryPage() {
     active: computers.filter((c) => c.status === 'Active').length,
     maintenance: computers.filter((c) => c.status === 'Maintenance').length,
     retired: computers.filter((c) => c.status === 'Retired').length,
+    inactive: computers.filter((c) => c.status === 'Inactive').length,
   }
 
   const SortIcon = ({ field }: { field: SortField }) => {
@@ -124,6 +125,7 @@ export default function InventoryPage() {
           { label: 'Active', value: counts.active, color: 'border-green-200 bg-green-50', num: 'text-green-700' },
           { label: 'Maintenance', value: counts.maintenance, color: 'border-yellow-200 bg-yellow-50', num: 'text-yellow-700' },
           { label: 'Retired', value: counts.retired, color: 'border-red-200 bg-red-50', num: 'text-red-700' },
+          { label: 'Inactive', value: counts.inactive, color: 'border-gray-200 bg-gray-50', num: 'text-gray-700' },
         ].map(({ label, value, color, num }) => (
           <div key={label} className={`card border ${color} p-4`}>
             <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">{label}</p>
